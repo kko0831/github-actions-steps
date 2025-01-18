@@ -38,8 +38,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: random
-        run: if [[ $(($RANDOM % 2)) == 0 ]]; then exit 0; else exit 1; fi
-      - if: ${{ always() }}
+        run: exit $(($RANDOM % 2 == 0))
+      - if: always()
         run: echo ${{ steps.random.outcome }}
   backup:
     runs-on: ubuntu-latest
@@ -47,5 +47,5 @@ jobs:
       - name: original
         run: exit 1
       - name: backup
-        if: ${{ failure() }}
+        if: failure()
         run: echo backup
